@@ -1,0 +1,11 @@
+1. Create a test _2mod5-basic-actions.test.ts
+
+2. Write a test that checks form validation reset. 
+
+3. Click on Register, check that validation messages are visible, refresh the page, 
+
+4. Now write an expectation to check that they become invisible. 
+
+
+*********************************************************************************
+               **************************************************

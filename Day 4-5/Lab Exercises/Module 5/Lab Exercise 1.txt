@@ -1,0 +1,21 @@
+1. Create a folder m5-basic-actions under tests/lab-exercises directory.
+
+2. Create a test _1mod5-basic-actions.test.ts
+
+3. The following is the test description:-
+	"homepage has Playwright in title and get started link linking to the intro page"
+
+4. Navigate to "https://playwright.dev/".
+
+5. Create an assertion with a regular expression that the page has the title "Playwright".
+
+6. Locate the element with the text "Get Started".
+
+7. Create an assertion that the locator above has an attribute "href" with the value "/docs/intro".
+
+7. Perform the click event on the locator. 
+
+8. Create an assertion with a regular expression that the page contains the URL "intro".
+
+*********************************************************************************
+               **************************************************

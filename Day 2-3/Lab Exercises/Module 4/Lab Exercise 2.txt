@@ -1,0 +1,12 @@
+1. Create a test _2mod4-locators.test.ts
+
+2. Copy and paste the code from _3locators-filters.test.ts
+
+3. Your are going to repeat the same test but using a regular expression to locate the row with the txt "Us".
+
+4. Print the value in the second cell i.e.; "5%".
+
+5. Refer to https://playwright.dev/docs/locators#filter-by-text.
+
+*********************************************************************************
+               **************************************************

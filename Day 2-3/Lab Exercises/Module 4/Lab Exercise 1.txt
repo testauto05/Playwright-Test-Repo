@@ -1,0 +1,16 @@
+1. Create a test _1mod4-locators.test.ts
+
+2. Copy and paste the code from _2locators-generic.test.ts
+
+3. Construct the CSS Selector to the checkbox on the Home Page
+
+4. Locate and check the checkbox.
+
+5. Construct the XPath to the text area element on the Home Page.
+
+6. Type in 'Playwright is AWESOME!!!'.
+
+7. Create a expectation that the text area contains the above text.
+
+*********************************************************************************
+               **************************************************
