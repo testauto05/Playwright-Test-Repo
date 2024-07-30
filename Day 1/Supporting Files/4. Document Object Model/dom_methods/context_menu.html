@@ -1,0 +1,47 @@
+<!-- In JavaScript, event handling typically involves the following steps:
+
+1. Selecting the Element: Identify the HTML element you want to add an event to. This can be done using 
+various methods like getElementById, querySelector, or by referencing elements directly.
+
+2. Attaching an Event Listener: Use the addEventListener method to attach an event listener to the selected
+element.
+This method takes the event type (such as 'click', 'mouseover', 'keydown', etc.) and a function that will
+be executed when the event occurs.
+
+3. Defining the Event Handler Function: This function specifies the actions to be taken when the event occurs.
+It can access information about the event through its parameters, such as the event object, target element, 
+mouse coordinates, etc.
+
+Here's an example using DOM event handling. In this example we want to change the 
+background color of a box when we click the right mouse button. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <div class="context">
+        <p>
+            Click right mouse button
+        </p>
+    </div>
+    <script>
+        // To prevent default operation of right mouse click
+        document.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+        });
+
+        const contextMenu = document.querySelector(".context");
+        contextMenu.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+            contextMenu.textContent = "This is the context menu!";
+            contextMenu.style = "color:green"
+        });
+    </script>
+</body>
+
+</html>

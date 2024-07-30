@@ -1,0 +1,48 @@
+Error -- MySQL 8.0 - Client does not support authentication protocol requested by server; consider upgrading MySQL client
+===============================================================================================================================
+
+https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server
+************************************************************************************************************************
+
+Summary
+If you just want to get rid of the error, at the cost of risking the security of the project (e.g. it's just a personal project or dev environment), go with @Pras's answer -- ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password' and then flush privileges
+If you want to have a fix for it, without knowing why, just install and use mysql2 (instead of mysql) and use it -- npm i mysql2, and mysql = require('mysql2');.
+If you are a curious developer who is always eager to learn, keep reading ... :)
+What's going on?
+Let's first make it clear what's going on.
+
+MySQL 8 has supports pluggable authentication methods. By default, one of them named caching_sha2_password is used rather than our good old mysql_native_password (source). It should be obvious that using a crypto algorithm with several handshakes is more secure than plain password passing that has been there for 24 years!
+
+Now, the problem is mysqljs in Node (the package you install with npm i mysql and use it in your Node code) doesn't support this new default authentication method of MySQL 8, yet. The issue is in here: https://github.com/mysqljs/mysql/issues/1507 and is still open, after 3 years, as of July 2019.
+
+UPDATE June 2019: There is a new PR in mysqljs now to fix this!
+
+UPDATE Feb 2020: Apparently it's scheduled to come in version 3 of mysqljs.
+
+UPDATE July 2020: Apparently it's still not in yet (as of April 2020 at least), but it's claimed that node-mysql2 is supporting Authentication switch request. Please comment below if node-mysql2 is working fine for this issue -- I will test it later myself.
+
+UPDATE April 2021: It seems like the issue is still there and just 3 days ago, someone created a fork and made it there -- yet not official in the mysql.js package. Also, as per the comments below, it seems like mysql2 package is working fine and supporting Authentication-switch properly.
+
+Your Current Options
+Option 1) [NOT RECOMMENDED] Downgrade "MySQL" to authenticate using good old "mysql_native_password"
+That's what everybody suggests here (e.g. top answer above). You just get into mysql and run a query saying root is fine using old mysql_native_password method for authentication:
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password ...
+The good thing is, life is going to be simple and you can still use good old tools like Sequel Pro without any issue. But the problem is, you are not taking advantage of a more secure (and cool, read below) stuffs available to you.
+
+Option 2) [Meh...] Replace "Node" package with MySQL Connecter X DevAPI
+MySQL X DevAPI for Node is a replacement to Node's Mysqljs package, provided by http://dev.mysql.com official guys.
+
+It works like a charm supporting caching_sha2_password authentication. (Just make sure you use port 33060 for X Protocol communications.)
+
+The bad thing is, you have left our old mysql package that everyone is so used to and relies on.
+
+The good thing is, your app is more secure now and you can take advantage of a ton of new things that our good old friends didn't provide! Just check out the tutorial of X DevAPI and you'll see it has a ton of new sexy features that can come in handy. You just need to pay the price of a learning curve, which expectedly comes with any technology upgrade. :)
+
+PS. Unfortunately, this XDevAPI Package doesn't have types definition (understandable by TypeScript) yet, so if you are on typescript, you will have problems. I tried to generate .d.ts using dts-gen and dtsmake, but no success. So keep that in mind.
+
+Option 3) [RECOMMENDED] Replace "mysql.js" with "mysql2.js" package
+As mentioned above, mysql package (NPM package link) is still having this issue (as of April 2021). But mysql2 package (NPM package link) is not. So probably the following should be the one-liner answer!
+
+npm un mysql && npm i mysql2
+Please note that mysql2 is a forked work off of the popular mysql, but its popularity (620K downloads per week for mysql2 in April 2020) has got close to the original package (720K download per week for mysql in April 2021) that making the switch seems reasonable!
